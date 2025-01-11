@@ -13,6 +13,6 @@ namespace MealPlanner.Builders
         IMealComponentBuilder WithUnit(string unit);
         IMealComponentBuilder WithQuantity(decimal quantity);
         IMealComponentBuilder WithDay(DateTime day);
-        IMealComponentBuilder WithMacronutrients(MacronutrientsData microutrients);
+        IMealComponentBuilder WithMacronutrients(MacronutrientsData macroutrients);
     }
 }

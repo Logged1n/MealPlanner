@@ -5,6 +5,7 @@
     /// </summary>
     public abstract class MealComponent
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Calories { get; set; }
         public string Description { get; set; }
