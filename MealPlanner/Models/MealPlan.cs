@@ -1,14 +1,26 @@
-﻿namespace MealPlanner.Models
+﻿using MealPlanner.Models.Enums;
+
+namespace MealPlanner.Models
 {
     public class MealPlan : MealComponent
     {
+        public override Enum Category {
+            get => base.Category;
+            set
+            {
+                if (value is not MealPlanDuration)
+                    throw new ArgumentException("Invalid enumeration type for this meal component.");
+                base.Category = value;
+            }
+        }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        private readonly List<MealDay> _components = [];
+        public readonly List<MealDay> Components = [];
+
         public override void Add(MealComponent component)
         {
             if (component is not MealDay) throw new ArgumentException($"{nameof(component)} is not a MealDay!");
-            _components.Add((MealDay)component);
+            Components.Add((MealDay)component);
         }
 
         public override void Display(int depth = 0)
@@ -18,7 +30,12 @@
 
         public override void Remove(MealComponent component)
         {
-            _components.Remove((MealDay)component);
+            Components.Remove((MealDay)component);
+        }
+
+        public override List<MealComponent> GetComponents()
+        {
+            throw new NotImplementedException();
         }
     }
 }
