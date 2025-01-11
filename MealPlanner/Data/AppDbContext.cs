@@ -23,6 +23,9 @@ namespace MealPlanner.Data
                 );
 
             modelBuilder.Entity<Recipe>()
+                .HasMany(r => r.Components);
+
+            modelBuilder.Entity<Recipe>()
                 .Property(r => r.Category)
                 .HasConversion(
                     c => c.ToString(),
@@ -30,11 +33,17 @@ namespace MealPlanner.Data
                 );
 
             modelBuilder.Entity<MealDay>()
+                .HasMany(m => m.Components);
+
+            modelBuilder.Entity<MealDay>()
                 .Property(m => m.Category)
                 .HasConversion(
                     c => c.ToString(),
                     c => (DayOfWeek)Enum.Parse(typeof(DayOfWeek), c)
                 );
+
+            modelBuilder.Entity<MealPlan>()
+                .HasMany<MealDay>();
 
             modelBuilder.Entity<MealPlan>()
                 .Property(m => m.Category)
