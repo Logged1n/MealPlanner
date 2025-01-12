@@ -9,7 +9,6 @@
         public string Name { get; set; } = string.Empty;
         public int Calories { get; set; }
         public string? Description { get; set; }
-        public virtual Enum Category {  get; set; }
         public MacronutrientsData Macronutrients { get; set; }
     }
 }

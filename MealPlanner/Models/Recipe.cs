@@ -5,17 +5,7 @@ namespace MealPlanner.Models
     public class Recipe : MealComponent
     {
         public readonly List<IngredientQuantity> Components = [];
-
-        public override Enum Category
-        {
-            get => base.Category;
-            set
-            {
-                if (value is not MealType)
-                    throw new ArgumentException("Invalid enumeration type for this meal component.");
-                base.Category = value;
-            }
-        }
+        public MealType Category { get; set; }
 
         public void Add(Ingredient ingredient, decimal quantity)
         {
