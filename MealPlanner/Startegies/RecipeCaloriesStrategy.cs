@@ -4,10 +4,10 @@ namespace MealPlanner.Startegies
 {
     public class RecipeCaloriesStrategy : ICalculateCaloriesStartegy
     {
-        public int CalculateCalories(MealComponent mealComponent)
+        public int CalculateCalories(Recipe recipe)
         {
-            return mealComponent
-                .GetComponents()
+            return recipe
+                .Components
                 .Sum(i => i.Calories);
         }
     }

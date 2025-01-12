@@ -13,9 +13,9 @@ namespace MealPlanner.Builders
             return this;
         }
 
-        public IMealComponentBuilder WithCalories(int calories)
+        public IMealComponentBuilder WithCalories(int? calories = null)
         {
-           _result.Calories = calories;
+           _result.Calories = calories ?? 0;
             return this;
         }
 
@@ -25,7 +25,7 @@ namespace MealPlanner.Builders
             return this;
         }
 
-        public IMealComponentBuilder WithComponents(List<MealComponent> components)
+        public IMealComponentBuilder WithComponents(List<MealComponent> components, List<IngredientQuantity?>? ingredientQuantities = null)
         {
             throw new InvalidOperationException($"Cant add components to leaf component ({_result.GetType().Name})!");
         }
@@ -50,18 +50,6 @@ namespace MealPlanner.Builders
         public IMealComponentBuilder WithName(string name)
         {
             _result.Name = name;
-            return this;
-        }
-
-        public IMealComponentBuilder WithQuantity(decimal quantity)
-        {
-            _result.Quantity = quantity;
-            return this;
-        }
-
-        public IMealComponentBuilder WithUnit(string unit)
-        {
-            _result.Unit = unit;
             return this;
         }
 

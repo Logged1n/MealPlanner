@@ -7,11 +7,9 @@ namespace MealPlanner.Builders
         IMealComponentBuilder Reset();
         IMealComponentBuilder WithName(string name);
         IMealComponentBuilder WithDescription(string description);
-        IMealComponentBuilder WithCalories(int calories);
+        IMealComponentBuilder WithCalories(int? calories = null);
         IMealComponentBuilder WithCategory(Enum category);
-        IMealComponentBuilder WithComponents(List<MealComponent> components);
-        IMealComponentBuilder WithUnit(string unit);
-        IMealComponentBuilder WithQuantity(decimal quantity);
+        IMealComponentBuilder WithComponents(List<MealComponent> components, List<IngredientQuantity?>? ingredientQuantities = null);
         IMealComponentBuilder WithDay(DateTime day);
         IMealComponentBuilder WithMacronutrients(MacronutrientsData macroutrients);
     }

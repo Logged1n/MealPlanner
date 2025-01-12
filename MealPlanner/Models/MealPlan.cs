@@ -4,7 +4,8 @@ namespace MealPlanner.Models
 {
     public class MealPlan : MealComponent
     {
-        public override Enum Category {
+        public override Enum Category
+        {
             get => base.Category;
             set
             {
@@ -16,26 +17,5 @@ namespace MealPlanner.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public readonly List<MealDay> Components = [];
-
-        public override void Add(MealComponent component)
-        {
-            if (component is not MealDay) throw new ArgumentException($"{nameof(component)} is not a MealDay!");
-            Components.Add((MealDay)component);
-        }
-
-        public override void Display(int depth = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove(MealComponent component)
-        {
-            Components.Remove((MealDay)component);
-        }
-
-        public override List<MealComponent> GetComponents()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

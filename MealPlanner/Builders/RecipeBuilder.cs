@@ -21,7 +21,7 @@ namespace MealPlanner.Builders
             return this;
         }
 
-        public IMealComponentBuilder WithCalories(int calories)
+        public IMealComponentBuilder WithCalories(int? calories = null)
         {
             _result.Calories = _caloriesStartegy.CalculateCalories(_result);
             return this;
@@ -33,9 +33,13 @@ namespace MealPlanner.Builders
             return this;
         }
 
-        public IMealComponentBuilder WithComponents(List<MealComponent> components)
+        public IMealComponentBuilder WithComponents(List<MealComponent> components, List<IngredientQuantity?>? ingredientQuantities = null)
         {
-            components.ForEach(_result.Add);
+            var zippedList = components.Zip(ingredientQuantities, (i1, i2) => new { Ingredient = i1, IngredientQuantity = i2 });
+            foreach (var item in zippedList)
+            {
+                _result.Add((Ingredient)item.Ingredient, item.IngredientQuantity);
+            }
             return this;
         }
 
@@ -60,16 +64,6 @@ namespace MealPlanner.Builders
         {
             _result.Name = name;
             return this;
-        }
-
-        public IMealComponentBuilder WithQuantity(decimal quantity)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public IMealComponentBuilder WithUnit(string unit)
-        {
-            throw new InvalidOperationException();
         }
     }
 }

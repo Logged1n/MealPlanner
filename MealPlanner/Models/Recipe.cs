@@ -5,6 +5,8 @@ namespace MealPlanner.Models
     public class Recipe : MealComponent
     {
         public readonly List<Ingredient> Components = [];
+        public readonly List<IngredientQuantity?> IngredientQuantities = [];
+
         public override Enum Category
         {
             get => base.Category;
@@ -16,27 +18,17 @@ namespace MealPlanner.Models
             }
         }
 
-        public override void Add(MealComponent component)
+        public void Add(Ingredient ingredient, IngredientQuantity? ingredientQuantity = null)
         {
-            if (component is not Ingredient) throw new ArgumentException("You are tring to add invalid component to Recipe!");
-            Components.Add((Ingredient)component);
+            Components.Add(ingredient);
+            IngredientQuantities.Add(ingredientQuantity);
         }
 
-        public override void Display(int depth = 0)
+        public void Remove(Ingredient component)
         {
-            throw new NotImplementedException();
-        }
-
-        public override List<MealComponent> GetComponents()
-        {
-            return Components
-                .Cast<MealComponent>()
-                .ToList();
-        }
-
-        public override void Remove(MealComponent component)
-        {
-            Components.Remove((Ingredient)component);
+            var indexToRemove = Components.IndexOf(component);
+            Components.Remove(component);
+            IngredientQuantities.Remove(IngredientQuantities[indexToRemove]);
         }
     }
 }

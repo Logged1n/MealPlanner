@@ -11,10 +11,5 @@
         public string? Description { get; set; }
         public virtual Enum Category {  get; set; }
         public MacronutrientsData Macronutrients { get; set; }
-
-        public abstract void Display(int depth = 0);
-        public abstract List<MealComponent> GetComponents();
-        public abstract void Add(MealComponent component);
-        public abstract void Remove(MealComponent component);
     }
 }
