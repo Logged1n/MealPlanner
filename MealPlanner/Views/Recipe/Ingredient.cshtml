@@ -1,75 +1,148 @@
-﻿@{
-    ViewData["Title"] = "Meal Plan";
-}
+﻿<!DOCTYPE html>
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodawanie nowych pól z wyborem</title>
+    <title>Dodawanie składników z typem posiłku</title>
+    <style>
+        .field-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
 
+        input, select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 150px;
+        }
+
+        select {
+            width: 150px;
+        }
+
+        #next-page-button {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Dodaj składniki potrzebne do przepisu</h1>
-<div id="fields-container">
-    <!-- Tutaj będą dodawane nowe pola -->
-</div>
-<button id="add-field-button">Dodaj pole</button>
-<button id="next-page-button" onclick="goToNextPage()">Przejdź do następnej strony</button>
+    <h1>Dodaj składniki do przepisu</h1>
 
-<script>
-    // Pobieramy elementy
-    const fieldsContainer = document.getElementById('fields-container');
-    const addFieldButton = document.getElementById('add-field-button');
-    const nextPageButton = document.getElementById('next-page-button');
-    let hasAddedField = false; // Flaga sprawdzająca, czy dodano pole
+    <!-- Wybór typu posiłku -->
+    <div>
+        <label for="meal-type">Typ posiłku:</label>
+        <select id="meal-type" name="meal-type">
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snack">Snack</option>
+        </select>
+    </div>
 
-    // Funkcja dodająca nowy zestaw pól
-    addFieldButton.addEventListener('click', () => {
-        // Tworzymy nowy kontener dla zestawu pól
-        const fieldContainer = document.createElement('div');
-        fieldContainer.className = 'field-container';
+    <div id="fields-container">
+        <!-- Tutaj będą dodawane nowe zestawy pól -->
+    </div>
+    <button id="add-field-button">Dodaj składnik</button>
+    <button id="next-page-button" onclick="goToNextPage()">Przejdź do następnej strony</button>
 
-        // Tworzymy pierwsze pole tekstowe
-        const inputField1 = document.createElement('input');
-        inputField1.type = 'text';
-        inputField1.placeholder = 'Wpisz coś...';
+    <script>
+        // Lista dostępnych składników
+        const availableIngredients = [
+            'Mąka',
+            'Cukier',
+            'Masło',
+            'Jajka',
+            'Mleko',
+            'Czekolada',
+            'Ryż',
+            'Kurczak'
+        ];
 
-        // Tworzymy pole wyboru (select)
-        const selectField = document.createElement('select');
+        // Pobieramy elementy
+        const fieldsContainer = document.getElementById('fields-container');
+        const addFieldButton = document.getElementById('add-field-button');
+        const nextPageButton = document.getElementById('next-page-button');
+        let hasAddedField = false; // Flaga sprawdzająca, czy dodano pole
 
-        // Dodajemy opcje do pola wyboru
-        const options = ['gram', 'kg', 'łyżeczki', 'ilość'];
-        options.forEach(option => {
-            const optionElement = document.createElement('option');
-            optionElement.value = option;
-            optionElement.textContent = option;
-            selectField.appendChild(optionElement);
+        // Funkcja dodająca nowy zestaw pól
+        addFieldButton.addEventListener('click', () => {
+            // Tworzymy nowy kontener dla zestawu pól
+            const fieldContainer = document.createElement('div');
+            fieldContainer.className = 'field-container';
+
+            // Tworzymy listę wyboru składnika
+            const ingredientSelect = document.createElement('select');
+            ingredientSelect.name = 'ingredient';
+
+            // Dodajemy opcję placeholder do listy wyboru
+            const placeholderOption = document.createElement('option');
+            placeholderOption.value = '';
+            placeholderOption.textContent = 'Wybierz składnik';
+            placeholderOption.disabled = true;
+            placeholderOption.selected = true;
+            ingredientSelect.appendChild(placeholderOption);
+
+            // Dodajemy składniki do listy wyboru
+            availableIngredients.forEach(ingredient => {
+                const option = document.createElement('option');
+                option.value = ingredient;
+                option.textContent = ingredient;
+                ingredientSelect.appendChild(option);
+            });
+
+            // Tworzymy pole wyboru jednostki
+            const unitSelect = document.createElement('select');
+            const units = ['gram', 'kg', 'łyżeczki', 'ilość'];
+            units.forEach(unit => {
+                const option = document.createElement('option');
+                option.value = unit;
+                option.textContent = unit;
+                unitSelect.appendChild(option);
+            });
+
+            // Tworzymy pole do wpisania ilości
+            const quantityInput = document.createElement('input');
+            quantityInput.type = 'number';
+            quantityInput.placeholder = 'Wpisz ilość';
+            quantityInput.min = 0;
+
+            // Dodajemy pola do kontenera
+            fieldContainer.appendChild(ingredientSelect);
+            fieldContainer.appendChild(unitSelect);
+            fieldContainer.appendChild(quantityInput);
+
+            // Dodajemy kontener do głównego kontenera
+            fieldsContainer.appendChild(fieldContainer);
+
+            // Ustawiamy flagę na true i pokazujemy przycisk przejścia
+            hasAddedField = true;
+            nextPageButton.style.display = 'block';
         });
 
-        // Tworzymy drugie pole tekstowe
-        const inputField2 = document.createElement('input');
-        inputField2.type = 'text';
-        inputField2.placeholder = 'Wpisz ilość...';
+        // Funkcja przechodząca do następnej strony
+        function goToNextPage() {
+            const mealType = document.getElementById('meal-type').value;
 
-        // Dodajemy pola do kontenera
-        fieldContainer.appendChild(inputField1);
-        fieldContainer.appendChild(selectField);
-        fieldContainer.appendChild(inputField2);
+            if (!mealType) {
+                alert('Wybierz typ posiłku, aby kontynuować.');
+                return;
+            }
 
-        // Dodajemy kontener do głównego kontenera
-        fieldsContainer.appendChild(fieldContainer);
-
-        // Ustawiamy flagę na true i pokazujemy przycisk przejścia
-        hasAddedField = true;
-        nextPageButton.style.display = 'block';
-    });
-
-    // Funkcja przechodząca do następnej strony
-    function goToNextPage() {
-        if (hasAddedField) {
-            window.location.href = '@Url.Action("Steps", "Recipe")';
-        } else {
-            alert('Dodaj przynajmniej jedno pole, aby przejść dalej!');
+            if (hasAddedField) {
+                // Dodaj tutaj akcję przekierowania do następnej strony
+                window.location.href = '@Url.Action("Steps", "Recipe")';
+            } else {
+                alert('Dodaj przynajmniej jeden składnik, aby przejść dalej!');
+            }
         }
-    }
-</script>
+    </script>
 </body>
+</html>
