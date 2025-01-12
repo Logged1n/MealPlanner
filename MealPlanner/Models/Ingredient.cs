@@ -1,9 +1,11 @@
 ﻿using MealPlanner.Models.Enums;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MealPlanner.Models
 {
     public class Ingredient : MealComponent
     {
+        
         public override Enum Category
         {
             get => base.Category;

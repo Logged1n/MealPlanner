@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Ingredient>
+@{
     ViewData["Title"] = "Ingredients";
 }
 
@@ -7,5 +8,50 @@
         <h1>Dodaj składnik</h1>
         <p class="lead">Dodaj nowy składnik. Jest to niezbędne do dodania nowych przepisów, których składniki nie zostały dodane.</p>
         <a class="btn btn-lg btn-primary" asp-area="" asp-controller="Ingredient" asp-action="InsertIngredient" role="button">DODAJ SKŁADNIK »</a>
+    </div>
+
+    <div class="mt-4">
+        <h1>Lista składników</h1>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nazwa</th>
+                        <th>Kalorie</th>
+                        <th>Jednostka</th>
+                        <th>Białko</th>
+                        <th>Tłuszcze</th>
+                        <th>Węglowodany</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        var ingredient = Model[i];
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>@ingredient.Name</td>
+                            <td>@ingredient.Calories</td>
+                            <td>@ingredient.Macronutrients.Unit</td>
+                            <td>@ingredient.Macronutrients.ProteinAmount</td>
+                            <td>@ingredient.Macronutrients.FatsAmount</td>
+                            <td>@ingredient.Macronutrients.CarbohydratesAmount</td>
+                            <td>
+                                <a class="btn btn-sm btn-warning" asp-controller="Ingredient" asp-action="EditIngredient" asp-route-id="@ingredient.Id">Edytuj</a>
+                                <a class="btn btn-sm btn-danger" asp-controller="Ingredient" asp-action="DeleteIngredient" asp-route-id="@ingredient.Id">Usuń</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="lead">Brak składników do wyświetlenia.</p>
+        }
     </div>
 </main>
