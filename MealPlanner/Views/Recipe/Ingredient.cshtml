@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Meal Plan";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodawanie nowych pól z wyborem</title>
+
+</head>
+<body>
+    <h1>Dodaj składniki potrzebne do przepisu</h1>
+<div id="fields-container">
+    <!-- Tutaj będą dodawane nowe pola -->
+</div>
+<button id="add-field-button">Dodaj pole</button>
+<button id="next-page-button" onclick="goToNextPage()">Przejdź do następnej strony</button>
+
+<script>
+    // Pobieramy elementy
+    const fieldsContainer = document.getElementById('fields-container');
+    const addFieldButton = document.getElementById('add-field-button');
+    const nextPageButton = document.getElementById('next-page-button');
+    let hasAddedField = false; // Flaga sprawdzająca, czy dodano pole
+
+    // Funkcja dodająca nowy zestaw pól
+    addFieldButton.addEventListener('click', () => {
+        // Tworzymy nowy kontener dla zestawu pól
+        const fieldContainer = document.createElement('div');
+        fieldContainer.className = 'field-container';
+
+        // Tworzymy pierwsze pole tekstowe
+        const inputField1 = document.createElement('input');
+        inputField1.type = 'text';
+        inputField1.placeholder = 'Wpisz coś...';
+
+        // Tworzymy pole wyboru (select)
+        const selectField = document.createElement('select');
+
+        // Dodajemy opcje do pola wyboru
+        const options = ['gram', 'kg', 'łyżeczki', 'ilość'];
+        options.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option;
+            optionElement.textContent = option;
+            selectField.appendChild(optionElement);
+        });
+
+        // Tworzymy drugie pole tekstowe
+        const inputField2 = document.createElement('input');
+        inputField2.type = 'text';
+        inputField2.placeholder = 'Wpisz ilość...';
+
+        // Dodajemy pola do kontenera
+        fieldContainer.appendChild(inputField1);
+        fieldContainer.appendChild(selectField);
+        fieldContainer.appendChild(inputField2);
+
+        // Dodajemy kontener do głównego kontenera
+        fieldsContainer.appendChild(fieldContainer);
+
+        // Ustawiamy flagę na true i pokazujemy przycisk przejścia
+        hasAddedField = true;
+        nextPageButton.style.display = 'block';
+    });
+
+    // Funkcja przechodząca do następnej strony
+    function goToNextPage() {
+        if (hasAddedField) {
+            window.location.href = '@Url.Action("Steps", "Recipe")';
+        } else {
+            alert('Dodaj przynajmniej jedno pole, aby przejść dalej!');
+        }
+    }
+</script>
+</body>

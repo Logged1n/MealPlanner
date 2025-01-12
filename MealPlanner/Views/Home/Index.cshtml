@@ -2,7 +2,28 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="position-relative overflow-hidden p-3 p-md-5 bg-image text-center ">
+    <div class="col-md-5 p-lg-5 mx-auto my-5" style="color:white">
+        <h1 class="display-4 font-weight-normal" style="font-size:5rem;font-weight:bold">MealPlanner</h1>
+        <p class="lead font-weight-normal" style="font-size:1,5rem;font-weight:bold">Wybierz kategorię, zapisz swoje dania i miej wszystko pod kontrolą – od śniadania po kolację!</p>
+        <a class="btn btn-outline-secondary" asp-area="" asp-controller="Plan" asp-action="Index" role="button" style="background-color:brown;color:white">Utwórz własny plan</a>
+    </div>
+    <div class="product-device box-shadow d-none d-md-block"></div>
+    <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
+</div>
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+    <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden"style="background-color:brown">
+        <div class="my-3 py-3">
+            <h2 class="display-5">Twoje jedzenie, Twoje reguły!</h2>
+            <p class="lead">Dzięki MealPlanner zyskujesz narzędzie, które upraszcza każdy krok: od pomysłu na posiłek po jego realizację.</p>
+        </div>
+        <div class="bg-light box-shadow mx-auto" style="width: 100%; height: 300px; border-radius: 21px 21px 21px 21px; background-image: url('Images/Meal2.jpg'); background-size: cover;"></div>
+    </div>
+    <div class=" mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" style="background-color:burlywood;">
+        <div class="my-3 p-3">
+            <h2 class="display-5">Organizuj posiłki, oszczędzaj czas i jedz zdrowiej!</h2>
+            <p class="lead">Zorganizuj swoje menu na cały tydzień i pożegnaj się z niepotrzebnym stresem. Mniej planowania, więcej gotowania!</p>
+        </div>
+        <div class=" box-shadow mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;background-image: url('Images/Meal3.png');background-size: cover"></div>
+    </div>
 </div>
