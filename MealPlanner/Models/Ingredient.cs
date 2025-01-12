@@ -4,6 +4,7 @@ namespace MealPlanner.Models
 {
     public class Ingredient : MealComponent
     {
+        public string Unit { get; set; }
         public override Enum Category
         {
             get => base.Category;

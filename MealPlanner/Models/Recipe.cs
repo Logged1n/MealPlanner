@@ -4,8 +4,7 @@ namespace MealPlanner.Models
 {
     public class Recipe : MealComponent
     {
-        public readonly List<Ingredient> Components = [];
-        public readonly List<IngredientQuantity?> IngredientQuantities = [];
+        public readonly List<IngredientQuantity> Components = [];
 
         public override Enum Category
         {
@@ -18,17 +17,14 @@ namespace MealPlanner.Models
             }
         }
 
-        public void Add(Ingredient ingredient, IngredientQuantity? ingredientQuantity = null)
+        public void Add(Ingredient ingredient, decimal quantity)
         {
-            Components.Add(ingredient);
-            IngredientQuantities.Add(ingredientQuantity);
+            Components.Add(new IngredientQuantity(ingredient, quantity));
         }
 
         public void Remove(Ingredient component)
         {
-            var indexToRemove = Components.IndexOf(component);
-            Components.Remove(component);
-            IngredientQuantities.Remove(IngredientQuantities[indexToRemove]);
+            Components.Remove((IngredientQuantity)component);
         }
     }
 }

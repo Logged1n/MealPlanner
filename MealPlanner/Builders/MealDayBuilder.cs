@@ -1,61 +1,50 @@
 ﻿using MealPlanner.Models;
-using MealPlanner.Models.Enums;
 
 namespace MealPlanner.Builders
 {
-    public class IngredientBuilder : IMealComponentBuilder
+    public class MealDayBuilder : IMealComponentBuilder
     {
-        private Ingredient _result = new Ingredient();
+        private MealDay _result = new MealDay();
 
         public IMealComponentBuilder Reset()
         {
-            _result = new Ingredient();
+            _result = new MealDay();
             return this;
         }
 
         public IMealComponentBuilder WithCalories(int? calories = null)
         {
-           _result.Calories = calories ?? 0;
-            return this;
+            throw new NotImplementedException();
         }
 
         public IMealComponentBuilder WithCategory(Enum category)
         {
-            _result.Category = (IngredientCategory)category;
-            return this;
+            throw new NotImplementedException();
         }
 
         public IMealComponentBuilder WithComponents(List<MealComponent> components, List<decimal>? quantities = null)
         {
-            throw new InvalidOperationException($"Cant add components to leaf component ({_result.GetType().Name})!");
+            throw new NotImplementedException();
         }
 
         public IMealComponentBuilder WithDay(DateTime day)
         {
-            throw new InvalidOperationException("Cant add Day to Ingredient!");
+            throw new NotImplementedException();
         }
 
         public IMealComponentBuilder WithDescription(string description)
         {
-            _result.Description = description;
-            return this;
+            throw new NotImplementedException();
         }
 
         public IMealComponentBuilder WithMacronutrients(MacronutrientsData macroutrients)
         {
-            _result.Macronutrients = macroutrients;
-            return this;
+            throw new NotImplementedException();
         }
 
         public IMealComponentBuilder WithName(string name)
         {
-            _result.Name = name;
-            return this;
-        }
-
-        public Ingredient Build()
-        {
-            return _result;
+            throw new NotImplementedException();
         }
     }
 }
