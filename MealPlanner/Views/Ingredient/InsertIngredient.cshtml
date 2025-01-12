@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodawanie Składnika</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin-bottom: 50px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                color: #555;
+                font-weight: bold;
+            }
+
+            .form-group input,
+            .form-group select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dodaj Składnik</h1>
+        <form id="ingredient-form">
+            <div class="form-group">
+                <label for="name">Nazwa składnika:</label>
+                <input type="text" id="name" name="name" placeholder="Np. Kurczak, Ryż" required>
+            </div>
+            <div class="form-group">
+                <label for="unit">Wybierz jednostkę:</label>
+                <select id="unit" name="unit" required>
+                    <option value="grams">100 gram (g)</option>
+                    <option value="quantity">1 sztuka</option>
+                    <option value="quantity">szczypta</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="calories">Kalorie (kcal):</label>
+                <input type="number" id="calories" name="calories" step="0.01" placeholder="Wprowadź liczbę kalorii" required>
+            </div>
+            <div class="form-group">
+                <label for="protein">Białko (g):</label>
+                <input type="number" id="protein" name="protein" step="0.01" placeholder="Wprowadź ilość białka" required>
+            </div>
+            <div class="form-group">
+                <label for="fats">Tłuszcze (g):</label>
+                <input type="number" id="fats" name="fats" step="0.01" placeholder="Wprowadź ilość tłuszczów" required>
+            </div>
+            <div class="form-group">
+                <label for="carbs">Węglowodany (g):</label>
+                <input type="number" id="carbs" name="carbs" step="0.01" placeholder="Wprowadź ilość węglowodanów" required>
+            </div>
+
+            <button type="submit">Zapisz składnik</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('ingredient-form');
+
+        form.addEventListener('submit', (event) => {
+
+            console.log('Dodano składnik:', ingredient);
+
+            // Reset formularza
+            form.reset();
+            alert('Składnik został zapisany!');
+        });
+    </script>
+</body>
+</html>
