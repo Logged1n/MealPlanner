@@ -10,5 +10,8 @@
         public int Calories { get; set; }
         public string? Description { get; set; }
         public MacronutrientsData Macronutrients { get; set; }
+
+        public abstract MealComponent[] GetComponents();
+        public abstract int GetTotalCalories();
     }
 }

@@ -1,8 +1,6 @@
 ﻿using MealPlanner.Data;
 using MealPlanner.Models;
-using MealPlanner.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MealPlanner.Controllers
 {

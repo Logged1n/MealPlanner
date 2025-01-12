@@ -6,6 +6,15 @@ namespace MealPlanner.Models
     {
         public string Unit { get; set; } = string.Empty;
         public IngredientCategory Category { get; set; }
-        
+
+        public override MealComponent[] GetComponents()
+        {
+            return [];
+        }
+
+        public override int GetTotalCalories()
+        {
+            return Calories;
+        }
     }
 }
