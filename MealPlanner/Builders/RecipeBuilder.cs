@@ -33,12 +33,12 @@ namespace MealPlanner.Builders
             return this;
         }
 
-        public IMealComponentBuilder WithComponents(List<MealComponent> components, List<IngredientQuantity?>? ingredientQuantities = null)
+        public IMealComponentBuilder WithComponents(List<MealComponent> components, List<decimal>? quantities = null)
         {
-            var zippedList = components.Zip(ingredientQuantities, (i1, i2) => new { Ingredient = i1, IngredientQuantity = i2 });
+            var zippedList = components.Zip(quantities, (i1, i2) => new { Component = (Ingredient)i1, Qty = i2 });
             foreach (var item in zippedList)
             {
-                _result.Add((Ingredient)item.Ingredient, item.IngredientQuantity);
+                _result.Add(item.Component, item.Qty);
             }
             return this;
         }
