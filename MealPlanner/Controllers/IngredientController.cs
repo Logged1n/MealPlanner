@@ -37,6 +37,14 @@ namespace MealPlanner.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public IActionResult DeleteIngredient(Ingredient obj)
+        {
+
+            _db.Ingredients.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         
 
     }
