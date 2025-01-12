@@ -3,8 +3,6 @@
     public enum MealPlanDuration
     {
         Day,
-        Week,
-        Month,
-        Year
+        Week
     }
 }

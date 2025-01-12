@@ -4,11 +4,25 @@ namespace MealPlanner.Startegies
 {
     public class RecipeCaloriesStrategy : ICalculateCaloriesStartegy
     {
-        public int CalculateCalories(Recipe recipe)
+        public int CalculateCalories(MealComponent component)
         {
-            return recipe
-                .Components
-                .Sum(i => i.Calories);
+            int totalCalories = 0;
+
+            if (component is IngredientQuantity ingredientQuantity)
+            {
+                totalCalories += ingredientQuantity.GetTotalCalories();
+            }
+            else
+            {
+                totalCalories += component.Calories;
+
+                foreach (var subComponent in component.GetComponents())
+                {
+                    totalCalories += CalculateCalories(subComponent);
+                }
+            }
+
+            return totalCalories;
         }
     }
 }

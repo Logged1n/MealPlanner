@@ -16,5 +16,15 @@ namespace MealPlanner.Models
         {
             Components.Remove((IngredientQuantity)component);
         }
+
+        public override MealComponent[] GetComponents()
+        {
+            return [.. Components];
+        }
+
+        public override int GetTotalCalories()
+        {
+            return Calories;
+        }
     }
 }

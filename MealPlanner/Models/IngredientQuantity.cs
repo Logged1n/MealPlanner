@@ -16,5 +16,10 @@ namespace MealPlanner.Models
             Calories = ingredient.Calories;
             Quantity = quantity;
         }
+
+        public override int GetTotalCalories()
+        {
+            return (int)(Calories*Quantity);
+        }
     }
 }

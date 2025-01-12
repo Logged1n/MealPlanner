@@ -1,10 +1,12 @@
 ﻿using MealPlanner.Models;
+using MealPlanner.Startegies;
 
 namespace MealPlanner.Builders
 {
     public class MealDayBuilder : IMealComponentBuilder
     {
         private MealDay _result = new MealDay();
+        private ICalculateCaloriesStartegy _calculateCaloriesStartegy = new RecipeCaloriesStrategy();
 
         public IMealComponentBuilder Reset()
         {
@@ -14,7 +16,11 @@ namespace MealPlanner.Builders
 
         public IMealComponentBuilder WithCalories(int? calories = null)
         {
-            throw new NotImplementedException();
+            if (calories is null)
+                _result.Calories = _calculateCaloriesStartegy.CalculateCalories(_result);
+            else
+                _result.Calories = (int)calories;
+            return this;
         }
 
         public IMealComponentBuilder WithCategory(Enum category)

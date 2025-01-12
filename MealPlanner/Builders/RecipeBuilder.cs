@@ -23,7 +23,10 @@ namespace MealPlanner.Builders
 
         public IMealComponentBuilder WithCalories(int? calories = null)
         {
-            _result.Calories = _caloriesStartegy.CalculateCalories(_result);
+            if (calories is null)
+                _result.Calories = _caloriesStartegy.CalculateCalories(_result);
+            else
+                _result.Calories = (int)calories;
             return this;
         }
 

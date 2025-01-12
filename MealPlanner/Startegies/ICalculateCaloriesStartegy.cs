@@ -4,6 +4,6 @@ namespace MealPlanner.Startegies
 {
     public interface ICalculateCaloriesStartegy
     {
-        int CalculateCalories(Recipe recipe);
+        int CalculateCalories(MealComponent mealComponent);
     }
 }
