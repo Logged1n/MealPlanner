@@ -1,0 +1,19 @@
+﻿.field-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+input {
+    width: 150px; /* Ustaw szerokość pól */
+}
+
+select {
+    width: 100px; /* Ustaw szerokość pola wyboru */
+}
+
+#next-page-button {
+    margin-top: 20px;
+    display: none; /* Ukrywamy przycisk na początku */
+}
