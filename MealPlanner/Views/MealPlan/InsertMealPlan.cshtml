@@ -1,5 +1,179 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tworzenie Planu na Dłuższy Okres</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .mealday-container {
+            margin-top: 20px;
+        }
+        .mealday-container h3 {
+            margin-bottom: 10px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tworzenie Planu na Dłuższy Okres</h1>
+        <form id="long-term-plan-form">
+            <!-- Data rozpoczęcia -->
+            <div class="form-group">
+                <label for="start-date">Data rozpoczęcia:</label>
+                <input type="date" id="start-date" required>
+            </div>
+
+            <!-- Data zakończenia -->
+            <div class="form-group">
+                <label for="end-date">Data zakończenia:</label>
+                <input type="date" id="end-date" required>
+            </div>
+
+            <!-- Wygenerowane okienka MealDay -->
+            <div class="mealday-container" id="mealday-container">
+                <!-- Dynamicznie generowane pola -->
+            </div>
+
+            <!-- Przycisk generowania -->
+            <button type="button" id="generate-days-button">Generuj dni</button>
+
+            <!-- Przycisk zapisania -->
+            <button type="submit" id="save-plan-button" style="display: none;">Zapisz Plan</button>
+        </form>
+    </div>
+
+    <script>
+        // Lista dostępnych planów dnia (MealDay) - zastąp dynamicznymi danymi z serwera, jeśli potrzeba
+        const mealDays = [
+            "Dzień 1 - Plan A",
+            "Dzień 2 - Plan B",
+            "Dzień 3 - Plan C",
+            "Dzień 4 - Plan D"
+        ];
+
+        // Pobranie elementów
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+        const mealdayContainer = document.getElementById('mealday-container');
+        const generateDaysButton = document.getElementById('generate-days-button');
+        const savePlanButton = document.getElementById('save-plan-button');
+
+        // Funkcja generowania dni na podstawie daty
+        generateDaysButton.addEventListener('click', () => {
+            // Pobranie i sprawdzenie dat
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+
+            if (isNaN(startDate) || isNaN(endDate)) {
+                alert('Proszę podać poprawne daty.');
+                return;
+            }
+
+            if (startDate > endDate) {
+                alert('Data zakończenia musi być późniejsza niż data rozpoczęcia.');
+                return;
+            }
+
+            // Obliczanie liczby dni
+            const daysCount = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+            // Czyszczenie poprzednio wygenerowanych pól
+            mealdayContainer.innerHTML = '';
+
+            // Tworzenie nowych pól dla każdego dnia
+            for (let i = 0; i < daysCount; i++) {
+                const mealDayDiv = document.createElement('div');
+                const currentDate = new Date(startDate);
+                currentDate.setDate(currentDate.getDate() + i);
+                const dateString = currentDate.toISOString().split('T')[0];
+
+                mealDayDiv.className = 'form-group';
+                mealDayDiv.innerHTML = `
+                    <label for="meal-day-${i}">Plan dnia dla ${dateString}:</label>
+                    <select id="meal-day-${i}" name="meal-days" required>
+                        <option value="" disabled selected>Wybierz plan dnia...</option>
+                        ${mealDays.map(meal => `<option value="${meal}">${meal}</option>`).join('')}
+                    </select>
+                `;
+                mealdayContainer.appendChild(mealDayDiv);
+            }
+
+            // Wyświetlenie przycisku zapisania planu
+            savePlanButton.style.display = 'block';
+        });
+
+        // Obsługa przesłania formularza
+        document.getElementById('long-term-plan-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            // Pobranie wszystkich wartości
+            const selectedMealDays = Array.from(document.querySelectorAll('select[name="meal-days"]'))
+                .map(select => select.value);
+
+            if (selectedMealDays.includes("")) {
+                alert("Proszę wypełnić wszystkie pola.");
+                return;
+            }
+
+            const plan = {
+                startDate: startDateInput.value,
+                endDate: endDateInput.value,
+                days: selectedMealDays
+            };
+
+            console.log("Zapisany plan:", plan);
+            alert("Plan na dłuższy okres został zapisany!");
+            // Możesz tutaj dodać kod do wysyłania danych na serwer
+        });
+    </script>
+</body>
+</html>
