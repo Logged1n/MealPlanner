@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+@model List<Ingredient>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -55,16 +56,8 @@
 
     <script>
         // Lista dostępnych składników
-        const availableIngredients = [
-            'Mąka',
-            'Cukier',
-            'Masło',
-            'Jajka',
-            'Mleko',
-            'Czekolada',
-            'Ryż',
-            'Kurczak'
-        ];
+        const availableIngredients = @Html.Raw(Json.Serialize(Model.Select(i => i.Name).ToList()));
+            
 
         // Pobieramy elementy
         const fieldsContainer = document.getElementById('fields-container');
