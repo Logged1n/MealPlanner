@@ -1,5 +1,6 @@
 ﻿using MealPlanner.Data;
 using MealPlanner.Models;
+using MealPlanner.Models.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MealPlanner.Controllers
@@ -8,39 +9,51 @@ namespace MealPlanner.Controllers
     {
 
         private readonly AppDbContext _db;
+        private readonly CommandInvoker _commandInvoker;
 
-        public IngredientController(AppDbContext db)
+        public IngredientController(AppDbContext db,CommandInvoker cmd)
         {
             _db = db;
+            _commandInvoker = cmd;
         }
 
         public IActionResult Index()
         {
             List<Ingredient> objIngredientList = _db.Ingredients.ToList();
-            return View(objIngredientList); 
+            return View(objIngredientList);
         }
 
-        
+
         public IActionResult InsertIngredient()
         {
-            
             return View();
+        }
+
+        public IActionResult UndoAction()
+        {
+            _commandInvoker.Undo(_db); 
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult InsertIngredient(Ingredient obj)
         {
-            _db.Ingredients.Add(obj);
-            _db.SaveChanges();
+            var command = new AddIngredientCommand(obj);
+            _commandInvoker.Invoke(command,_db); 
             return RedirectToAction("Index");
         }
 
-        public IActionResult DeleteIngredient(Ingredient obj)
+        public IActionResult DeleteIngredient(Guid id)
         {
-
-            _db.Ingredients.Remove(obj);
-            _db.SaveChanges();
+            var ingredient = _db.Ingredients.Find(id);
+            if (ingredient == null)
+            {
+                return NotFound("Składnik nie został znaleziony.");
+            }
+            var command = new DeleteIngredientCommand(ingredient);
+                _commandInvoker.Invoke(command, _db); 
+            
             return RedirectToAction("Index");
         }
         public IActionResult DuplicateIngredient(Guid id)

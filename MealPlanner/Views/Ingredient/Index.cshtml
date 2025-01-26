@@ -20,6 +20,9 @@
 
     <div class="mt-4">
         <h1 class="ingredient-title">Lista składników</h1>
+        <form asp-action="UndoAction" method="post">
+            <button type="submit" class="btn btn-warning">Cofnij ostatnią akcję</button>
+        </form>
 
         @if (Model != null && Model.Count > 0)
         {
