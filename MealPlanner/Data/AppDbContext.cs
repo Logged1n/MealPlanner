@@ -9,21 +9,21 @@ namespace MealPlanner.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<IngredientQuantity> IngredientQuantities { get; set; }
         public DbSet<Recipe> Recipies { get; set; }
         public DbSet<MealDay> MealDays { get; set; }
         public DbSet<MealPlan> MealPlans { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Ingredient>()
                 .Property(i => i.Category)
                 .HasConversion(
                     c => c.ToString(),
                     c => (IngredientCategory)Enum.Parse(typeof(IngredientCategory), c)
                 );
-
-            modelBuilder.Entity<Recipe>()
-                .HasMany(r => r.Components);
 
             modelBuilder.Entity<Recipe>()
                 .Property(r => r.Category)
@@ -44,9 +44,6 @@ namespace MealPlanner.Data
 
             modelBuilder.Entity<MealPlan>()
                 .HasMany<MealDay>();
-
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

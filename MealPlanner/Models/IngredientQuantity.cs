@@ -1,25 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MealPlanner.Models
+﻿namespace MealPlanner.Models
 {
-    [ComplexType]
-    public class IngredientQuantity : Ingredient
+    public class IngredientQuantity : MealComponent
     {
         public decimal Quantity { get; set; }
 
+        //navigation
+        public Recipe Recipe { get; set; } = null!;
+        public Ingredient Ingredient { get; set; } = null!;
+
         public IngredientQuantity() { }
-        public IngredientQuantity(Ingredient ingredient, decimal quantity)
+        public IngredientQuantity(Ingredient ingredient, decimal quantity, Recipe recipe)
         {
             Id = ingredient.Id;
-            Category = ingredient.Category;
             Description = ingredient.Description;
             Calories = ingredient.Calories;
             Quantity = quantity;
+            Recipe = recipe;
         }
 
         public override int GetTotalCalories()
         {
-            return (int)(Calories*Quantity);
+            return (int)(Ingredient.Calories*Quantity);
+        }
+
+        public override MealComponent[] GetComponents()
+        {
+            return Array.Empty<MealComponent>();
         }
     }
 }

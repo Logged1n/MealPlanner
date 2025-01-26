@@ -9,12 +9,12 @@ namespace MealPlanner.Models
 
         public void Add(Ingredient ingredient, decimal quantity)
         {
-            Components.Add(new IngredientQuantity(ingredient, quantity));
+            Components.Add(new IngredientQuantity(ingredient, quantity, this));
         }
 
-        public void Remove(Ingredient component)
+        public void Remove(IngredientQuantity component)
         {
-            Components.Remove((IngredientQuantity)component);
+            Components.Remove(component);
         }
 
         public override MealComponent[] GetComponents()
