@@ -65,6 +65,43 @@ namespace MealPlanner.Controllers
             // Przekierowujemy do listy składników
             return RedirectToAction("Index");
         }
+        public IActionResult EditIngredient(Guid id)
+        {
+            // Pobieramy składnik na podstawie ID
+            var ingredient = _db.Ingredients.Find(id);
+            if (ingredient == null)
+            {
+                return NotFound("Składnik nie został znaleziony.");
+            }
 
-    }
+            return View(ingredient); // Przekazujemy obiekt składnika do widoku
+        }
+
+        // Nowa akcja POST - zapisanie zmian w składniku
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditIngredient(Ingredient ingredient)
+        {
+            // Pobieramy składnik z bazy danych na podstawie jego ID
+            var existingIngredient = _db.Ingredients.Find(ingredient.Id);
+            if (existingIngredient == null)
+            {
+                return NotFound("Składnik nie został znaleziony.");
+            }
+
+            // Aktualizujemy dane składnika
+            existingIngredient.Name = ingredient.Name;
+            existingIngredient.Description = ingredient.Description;
+            existingIngredient.Calories = ingredient.Calories;
+            existingIngredient.Macronutrients = ingredient.Macronutrients;
+            existingIngredient.Unit = ingredient.Unit;
+            existingIngredient.Category = ingredient.Category;
+
+            // Zapisujemy zmiany w bazie danych
+            _db.SaveChanges();
+
+            return RedirectToAction("Index"); // Przekierowujemy z powrotem do listy składników
+        }
+    
+}
 }
