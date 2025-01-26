@@ -70,9 +70,11 @@
         </select>
     </div>
 
-    <div id="fields-container"></div>
-    <button id="add-field-button">Dodaj składnik</button>
-    <button id="next-page-button" onclick="goToNextPage()">Przejdź do następnej strony</button>
+    <form id="ingredients-form" action="@Url.Action("SaveIngredients", "Recipe")" method="post">
+        <div id="fields-container"></div>
+        <button type="button" id="add-field-button">Dodaj składnik</button>
+        <button type="submit" id="next-page-button">Przejdź do następnej strony</button>
+    </form>
 
     <script>
         const availableIngredients = @Html.Raw(Json.Serialize(Model.Select(i => new { i.Name, i.Macronutrients.Unit }).ToList()));
@@ -134,6 +136,19 @@
 
             hasAddedField = true;
             nextPageButton.style.display = 'block';
+        });
+
+        document.getElementById('ingredients-form').addEventListener('submit', function(event) {
+            if (!hasAddedField) {
+                alert('Dodaj przynajmniej jeden składnik, aby kontynuować!');
+                event.preventDefault();  // Zapobiega wysłaniu formularza, jeśli nie dodano składnika
+            }
+
+            const mealType = document.getElementById('meal-type').value;
+            if (!mealType) {
+                alert('Wybierz typ posiłku, aby kontynuować.');
+                event.preventDefault();  // Zapobiega wysłaniu formularza, jeśli typ posiłku nie jest wybrany
+            }
         });
 
         function goToNextPage() {

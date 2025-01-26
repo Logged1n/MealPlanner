@@ -24,5 +24,6 @@ namespace MealPlanner.Models
             // Jeśli w przyszłości Ingredient będzie miał złożone komponenty, tutaj można dodać głębokie kopiowanie
             return clone;
         }
+
     }
 }
