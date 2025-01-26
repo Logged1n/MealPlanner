@@ -1,6 +1,6 @@
 ﻿namespace MealPlanner.Models
 {
-    public class IngredientQuantity : MealComponent
+    public class IngredientQuantity : MealComponent, ICloneable
     {
         public decimal Quantity { get; set; }
 
@@ -28,13 +28,16 @@
             return Array.Empty<MealComponent>();
         }
 
-        public object Clone()
+        public override object Clone()
         {
-            // Klonowanie Ingredient (płytka kopia)
-            var clonedIngredient = (Ingredient)base.Clone(); // używamy Clone z klasy Ingredient
+            // Tworzymy płytką kopię IngredientQuantity
+            var clone = (IngredientQuantity)base.Clone();
 
-            // Tworzenie nowego IngredientQuantity na podstawie sklonowanego Ingredientu
-            return new IngredientQuantity(clonedIngredient, Quantity);
+            // Wykonujemy głębokie kopiowanie referencji na Recipe i Ingredient
+            clone.Recipe = (Recipe)Recipe.Clone();  // Głębokie klonowanie Recipe
+            clone.Ingredient = (Ingredient)Ingredient.Clone();  // Głębokie klonowanie Ingredient
+
+            return clone;
         }
     }
 }
