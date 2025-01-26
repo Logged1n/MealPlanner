@@ -1,1 +1,156 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Żywieniowy na Jeden Dzień</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        select, input[type="date"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tworzenie Planu Żywieniowego</h1>
+        <form id="meal-plan-form">
+
+            <!-- Nazwa Plan Dnia -->
+            <div class="form-group">
+                <label for="mealday-name">Nazwa Plan Dnia:</label>
+                <input type="text" id="mealday-name" name="mealday-name" placeholder="Podaj nazwę planu dnia" required>
+            </div>
+
+            <div class="form-group">
+                <label for="plan-date">Wybierz datę planu:</label>
+                <input type="date" id="plan-date" name="plan-date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="breakfast">Śniadanie:</label>
+                <select id="breakfast" name="breakfast">
+                    <option value="" disabled selected>Wybierz przepis...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="lunch">Lunch:</label>
+                <select id="lunch" name="lunch">
+                    <option value="" disabled selected>Wybierz przepis...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dinner">Obiad:</label>
+                <select id="dinner" name="dinner">
+                    <option value="" disabled selected>Wybierz przepis...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="snack">Przekąska:</label>
+                <select id="snack" name="snack">
+                    <option value="" disabled selected>Wybierz przepis...</option>
+                </select>
+            </div>
+
+            <button type="submit">Zapisz Plan</button>
+        </form>
+    </div>
+
+    <script>
+        const recipes = [
+            "Omlet z warzywami",
+            "Kanapka z awokado",
+            "Sałatka z kurczakiem",
+            "Zupa pomidorowa",
+            "Makaron z pesto",
+            "Ciasto marchewkowe",
+            "Smoothie owocowe"
+        ];
+
+        function populateRecipeSelects() {
+            const mealFields = ["breakfast", "lunch", "dinner", "snack"];
+            mealFields.forEach(meal => {
+                const selectElement = document.getElementById(meal);
+                recipes.forEach(recipe => {
+                    const option = document.createElement("option");
+                    option.value = recipe;
+                    option.textContent = recipe;
+                    selectElement.appendChild(option);
+                });
+            });
+        }
+
+        window.onload = populateRecipeSelects;
+
+        document.getElementById("meal-plan-form").addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const mealDayName = document.getElementById("mealday-name").value;
+            const planDate = document.getElementById("plan-date").value;
+            const breakfast = document.getElementById("breakfast").value;
+            const lunch = document.getElementById("lunch").value;
+            const dinner = document.getElementById("dinner").value;
+            const snack = document.getElementById("snack").value;
+
+            if (!mealDayName || !planDate || !breakfast || !lunch || !dinner || !snack) {
+                alert("Proszę wypełnić wszystkie pola!");
+                return;
+            }
+
+            const mealPlan = {
+                name: mealDayName,
+                date: planDate,
+                meals: {
+                    breakfast,
+                    lunch,
+                    dinner,
+                    snack
+                }
+            };
+
+            console.log("Zapisany plan żywieniowy:", mealPlan);
+            alert("Plan żywieniowy został zapisany!");
+            // Możesz tutaj dodać kod do wysyłania danych na serwer
+        });
+    </script>
+</body>
+</html>

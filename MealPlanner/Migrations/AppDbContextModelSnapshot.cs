@@ -145,10 +145,6 @@ namespace MealPlanner.Migrations
                     b.Property<int>("Calories")
                         .HasColumnType("int");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 

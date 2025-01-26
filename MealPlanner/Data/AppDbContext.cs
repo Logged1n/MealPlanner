@@ -45,12 +45,6 @@ namespace MealPlanner.Data
             modelBuilder.Entity<MealPlan>()
                 .HasMany<MealDay>();
 
-            modelBuilder.Entity<MealPlan>()
-                .Property(m => m.Category)
-                .HasConversion(
-                    c => c.ToString(),
-                    c => (MealPlanDuration)Enum.Parse(typeof(MealPlanDuration), c)
-                );
 
             base.OnModelCreating(modelBuilder);
         }
