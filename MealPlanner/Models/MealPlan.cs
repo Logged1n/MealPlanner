@@ -2,11 +2,11 @@
 
 namespace MealPlanner.Models
 {
-    public class MealPlan : MealComponent
+    public class MealPlan : MealComponent, ICloneable
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public readonly List<MealDay> Components = [];
+        public List<MealDay> Components = [];
 
         public override MealComponent[] GetComponents()
         {
@@ -17,5 +17,14 @@ namespace MealPlanner.Models
         {
             return Components.Sum(c => c.GetTotalCalories());
         }
+        protected override void DeepClone()
+        {
+            // Głębokie klonowanie listy Components
+            Components = new List<MealDay>(
+                Components.Select(c => (MealDay)c.Clone())
+            );
+        }
+
+
     }
 }

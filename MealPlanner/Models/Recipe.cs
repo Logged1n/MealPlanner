@@ -2,9 +2,9 @@
 
 namespace MealPlanner.Models
 {
-    public class Recipe : MealComponent
+    public class Recipe : MealComponent, ICloneable
     {
-        public readonly List<IngredientQuantity> Components = [];
+        public List<IngredientQuantity> Components = [];
         public MealType Category { get; set; }
 
         public void Add(Ingredient ingredient, decimal quantity)
@@ -25,6 +25,11 @@ namespace MealPlanner.Models
         public override int GetTotalCalories()
         {
             return Calories;
+        }
+        protected override void DeepClone()
+        {
+            // Tworzymy głęboką kopię listy Components
+            Components = Components.Select(c => (IngredientQuantity)c.Clone()).ToList();
         }
     }
 }

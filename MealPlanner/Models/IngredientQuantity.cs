@@ -27,5 +27,14 @@
         {
             return Array.Empty<MealComponent>();
         }
+
+        public object Clone()
+        {
+            // Klonowanie Ingredient (płytka kopia)
+            var clonedIngredient = (Ingredient)base.Clone(); // używamy Clone z klasy Ingredient
+
+            // Tworzenie nowego IngredientQuantity na podstawie sklonowanego Ingredientu
+            return new IngredientQuantity(clonedIngredient, Quantity);
+        }
     }
 }
