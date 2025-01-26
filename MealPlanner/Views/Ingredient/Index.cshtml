@@ -51,6 +51,7 @@
                             <td>@ingredient.Macronutrients.FatsAmount</td>
                             <td>@ingredient.Macronutrients.CarbohydratesAmount</td>
                             <td>
+                                <a class="btn btn-sm btn-warning" asp-controller="Ingredient" asp-action="DuplicateIngredient" asp-route-id="@ingredient.Id">Duplikuj</a>
                                 <a class="btn btn-sm btn-warning" asp-controller="Ingredient" asp-action="EditIngredient" asp-route-id="@ingredient.Id">Edytuj</a>
                                 <a class="btn btn-sm btn-danger" asp-controller="Ingredient" asp-action="DeleteIngredient" asp-route-id="@ingredient.Id">Usuń</a>
                             </td>
