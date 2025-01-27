@@ -15,7 +15,9 @@ namespace MealPlanner.Controllers
         }
         public IActionResult Index()
         {
-            List<Recipe> recipes = _db.Recipies.ToList();
+            List<Recipe> recipes = _db.Recipies
+                .Include(r => r.Components)
+                .ToList();
 
             return View(recipes);
         }

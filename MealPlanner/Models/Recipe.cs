@@ -4,7 +4,7 @@ namespace MealPlanner.Models
 {
     public class Recipe : MealComponent, ICloneable
     {
-        public List<IngredientQuantity> Components = [];
+        public List<IngredientQuantity> Components { get; set; } = [];
         public MealType Category { get; set; }
 
         public void Add(Ingredient ingredient, decimal quantity)
