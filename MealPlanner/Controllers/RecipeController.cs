@@ -1,5 +1,6 @@
 ﻿using MealPlanner.Data;
 using MealPlanner.Models;
+using MealPlanner.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,14 +19,26 @@ namespace MealPlanner.Controllers
 
             return View(recipes);
         }
-        public IActionResult Ingredient()
+        public IActionResult InsertRecipe()
         {
             List<Ingredient> objIngredientList = _db.Ingredients.ToList();
             return View(objIngredientList);
         }
-        public IActionResult Steps()
+
+        [HttpPost]
+        public IActionResult InsertRecipe(Recipe recipe)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(recipe); // Jeśli dane są błędne, zwróć formularz z błędami
+            }
+
+            // Dodajemy logikę przetwarzania (np. zapis do bazy)
+            _db.Recipies.Add(recipe);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
+
     }
 }
