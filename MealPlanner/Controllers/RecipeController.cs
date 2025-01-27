@@ -13,7 +13,8 @@ namespace MealPlanner.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            List<Recipe> recipes = _db.Recipies.ToList();
+            return View(recipes);
         }
         public IActionResult Ingredient()
         {
