@@ -16,7 +16,7 @@ namespace MealPlanner.Controllers
 
         public IActionResult Index()
         {
-            List<Recipe> recipes = _db.Recipies.ToList();
+            List<MealDay> recipes = _db.MealDays.ToList();
             return View(recipes);
         }
         public IActionResult InsertMealDay() 

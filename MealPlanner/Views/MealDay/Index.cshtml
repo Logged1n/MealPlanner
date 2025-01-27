@@ -1,12 +1,74 @@
-﻿
+﻿@model List<MealDay>
+
 @{
-    ViewData["Title"] = "Meal Plan";
+    ViewData["Title"] = "Meal Days";
 }
+
+<style>
+    .mealday-table th,
+    .mealday-table td,
+    .mealday-title,
+    .jumbotron h1,
+    .jumbotron p {
+        color: white;
+    }
+</style>
 
 <main role="main" class="container">
     <div class="jumbotron">
         <h1>Dodaj plan posiłków</h1>
         <p class="lead">Utwórz plan żywieniowy na pojedynczy dzień. Wybierz z listy przepisów te, które mają wchodzić w twój plan. Na jego podstawie zostanie wygenerowana lista potrzebnych składników.</p>
         <a class="btn btn-lg btn-primary" asp-area="" asp-controller="MealDay" asp-action="InsertMealDay" role="button">DODAJ PLAN »</a>
+    </div>
+
+    <div class="mt-4">
+        <h1 class="mealday-title">Lista planów posiłków</h1>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            <table class="table table-striped mealday-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nazwa planu</th>
+                        <th>Lista przepisów</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        var mealDay = Model[i];
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>@mealDay.Name</td>
+                            <td>
+                                @if (mealDay.Components != null && mealDay.Components.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var recipe in mealDay.Components)
+                                        {
+                                            <li>@recipe.Name</li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span>Brak przypisanych przepisów</span>
+                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-warning" asp-controller="MealDay" asp-action="EditMealDay" asp-route-id="@mealDay.Id">Edytuj</a>
+                                <a class="btn btn-sm btn-danger" asp-controller="MealDay" asp-action="DeleteMealDay" asp-route-id="@mealDay.Id">Usuń</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="lead">Brak planów posiłków do wyświetlenia.</p>
+        }
     </div>
 </main>

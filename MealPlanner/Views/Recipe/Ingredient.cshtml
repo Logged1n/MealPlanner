@@ -11,6 +11,20 @@
             background-color: #282c34;
         }
 
+        textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        #description-container {
+            margin-top: 20px;
+        }
+
         .field-container {
             display: flex;
             align-items: center;
@@ -60,19 +74,30 @@
 <body>
     <h1>Dodaj składniki do przepisu</h1>
 
-    <div id="meal-type-container">
-        <label for="meal-type">Typ posiłku:</label>
-        <select id="meal-type" name="meal-type">
-            <option value="breakfast">Breakfast</option>
-            <option value="lunch">Lunch</option>
-            <option value="dinner">Dinner</option>
-            <option value="snack">Snack</option>
-        </select>
-    </div>
+    <form id="ingredients-form" asp-controller="Recipe" asp-action="AddIngredients" method="post">
+        <div id="recipe-name-container" style="margin-bottom:10px">
+            <label for="recipe-name">Nazwa przepisu:</label>
+            <input type="text" id="recipe-name" name="recipe-name" placeholder="Wpisz nazwę przepisu" required />
+        </div>
+        <div id="meal-type-container">
+            <label asp for="MealType">Typ posiłku:</label>
+            <select asp name="meal-type">
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="snack">Snack</option>
+            </select>
+        </div>
 
-    <form id="ingredients-form" action="@Url.Action("SaveIngredients", "Recipe")" method="post">
         <div id="fields-container"></div>
         <button type="button" id="add-field-button">Dodaj składnik</button>
+
+        <div id="description-container">
+            <label for="description">Opis przyrządzenia:</label>
+            <br />
+            <textarea id="description" name="description" rows="5" cols="50" placeholder="Opisz, jak przygotować to danie"></textarea>
+        </div>
+
         <button type="submit" id="next-page-button">Przejdź do następnej strony</button>
     </form>
 
@@ -91,7 +116,7 @@
             fieldContainer.className = 'field-container';
 
             const ingredientSelect = document.createElement('select');
-            ingredientSelect.name = 'ingredient';
+            ingredientSelect.name = 'ingredient[]';
 
             const placeholderOption = document.createElement('option');
             placeholderOption.value = '';
@@ -113,7 +138,7 @@
             unitSelect.disabled = true;
 
             const quantityInput = document.createElement('input');
-            quantityInput.type = 'number';
+            quantityInput.type = 'number[]';
             quantityInput.placeholder = 'Wpisz ilość';
             quantityInput.min = 0;
 
@@ -138,7 +163,7 @@
             nextPageButton.style.display = 'block';
         });
 
-        document.getElementById('ingredients-form').addEventListener('submit', function(event) {
+        document.getElementById('ingredients-form').addEventListener('submit', function (event) {
             if (!hasAddedField) {
                 alert('Dodaj przynajmniej jeden składnik, aby kontynuować!');
                 event.preventDefault();  // Zapobiega wysłaniu formularza, jeśli nie dodano składnika
@@ -149,22 +174,13 @@
                 alert('Wybierz typ posiłku, aby kontynuować.');
                 event.preventDefault();  // Zapobiega wysłaniu formularza, jeśli typ posiłku nie jest wybrany
             }
+
+            const description = document.getElementById('description').value.trim();
+            if (!description) {
+                alert('Podaj opis przyrządzenia dania, aby kontynuować.');
+                event.preventDefault();
+            }
         });
-
-        function goToNextPage() {
-            const mealType = document.getElementById('meal-type').value;
-
-            if (!mealType) {
-                alert('Wybierz typ posiłku, aby kontynuować.');
-                return;
-            }
-
-            if (hasAddedField) {
-                window.location.href = '@Url.Action("Steps", "Recipe")';
-            } else {
-                alert('Dodaj przynajmniej jeden składnik, aby przejść dalej!');
-            }
-        }
     </script>
 </body>
 </html>
