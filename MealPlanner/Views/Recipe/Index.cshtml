@@ -45,6 +45,7 @@
                             <td>
                                 <!-- Przycisk Szczegóły -->
                                 <a class="btn btn-sm btn-info" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">Szczegóły</a>
+                                <a class="btn btn-sm btn-warning" asp-controller="Recipe" asp-action="DuplicateRecipe" asp-route-id="@recipe.Id">Duplikuj</a>
                             </td>
                         </tr>
                     }

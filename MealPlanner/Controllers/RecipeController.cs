@@ -56,5 +56,28 @@ namespace MealPlanner.Controllers
             return View(recipe);
         }
 
+        public IActionResult DuplicateRecipe(Guid id)
+        {
+            // Pobieramy składnik na podstawie ID
+            var recipe = _db.Recipies.Find(id);
+            if (recipe == null)
+            {
+                return NotFound("Składnik nie został znaleziony.");
+            }
+
+            // Klonujemy składnik
+            var clonedRecipe = (Recipe)recipe.Clone();
+
+            // Generujemy nowe, unikalne ID dla sklonowanego składnika
+            clonedRecipe.Id = Guid.NewGuid();
+
+            // Dodajemy sklonowany składnik do bazy danych
+            _db.Recipies.Add(clonedRecipe);
+            _db.SaveChanges();
+
+            // Przekierowujemy do listy składników
+            return RedirectToAction("Index");
+        }
+
     }
 }
