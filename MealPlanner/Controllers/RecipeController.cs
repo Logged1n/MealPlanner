@@ -41,6 +41,20 @@ namespace MealPlanner.Controllers
 
             return RedirectToAction("Index");
         }
+        public IActionResult Details(Guid id)
+        {
+            var recipe = _db.Recipies
+                             .Include(r => r.Components)
+                             .ThenInclude(i => i.Ingredient)
+                             .FirstOrDefault(r => r.Id == id);
+
+            if (recipe == null)
+            {
+                return NotFound(); // Jeśli przepis nie istnieje
+            }
+
+            return View(recipe);
+        }
 
     }
 }

@@ -1,0 +1,35 @@
+﻿@model Recipe
+
+@{
+    ViewData["Title"] = "Szczegóły przepisu - " + Model.Name;
+}
+
+<div class="container mt-4" style="color:white">
+    <h1>@Model.Name</h1>
+
+    <div>
+        <h3>Typ posiłku:</h3>
+        <p>@Model.Category</p>
+    </div>
+
+    <div>
+        <h3>Składniki:</h3>
+        <ul>
+            @foreach (var component in Model.Components)
+            {
+                <li>
+                    <strong>@component.Ingredient.Name:</strong>
+                    @component.Quantity @component.Ingredient.Macronutrients.Unit
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div>
+        <h3>Opis:</h3>
+        <p>@Model.Description</p>
+    </div>
+
+    <!-- Przycisk powrotu do listy przepisów -->
+    <a class="btn btn-primary" asp-controller="Recipe" asp-action="Index">Wróć do listy przepisów</a>
+</div>

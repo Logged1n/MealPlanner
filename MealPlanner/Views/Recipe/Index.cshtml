@@ -28,7 +28,8 @@
                     <tr>
                         <th>#</th>
                         <th>Nazwa przepisu</th>
-                        <th>Składniki</th>
+                        <th>Typ Dania</th>
+                        <th>Akcje</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,12 +40,11 @@
                             <td>@(i + 1)</td>
                             <td>@recipe.Name</td>
                             <td>
-                                <ul>
-                                    @foreach (var ingredient in recipe.Components)
-                                    {
-                                        <li>@ingredient.Id</li>
-                                    }
-                                </ul>
+                                <u1>@recipe.Category</u1>
+                            </td>
+                            <td>
+                                <!-- Przycisk Szczegóły -->
+                                <a class="btn btn-sm btn-info" asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id">Szczegóły</a>
                             </td>
                         </tr>
                     }
