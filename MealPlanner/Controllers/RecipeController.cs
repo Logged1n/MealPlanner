@@ -1,6 +1,7 @@
 ﻿using MealPlanner.Data;
 using MealPlanner.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MealPlanner.Controllers
 {
@@ -14,6 +15,7 @@ namespace MealPlanner.Controllers
         public IActionResult Index()
         {
             List<Recipe> recipes = _db.Recipies.ToList();
+
             return View(recipes);
         }
         public IActionResult Ingredient()

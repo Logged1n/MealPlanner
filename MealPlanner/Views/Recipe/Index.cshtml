@@ -42,7 +42,7 @@
                                 <ul>
                                     @foreach (var ingredient in recipe.Components)
                                     {
-                                        <li>@ingredient.Name</li>
+                                        <li>@ingredient.Id</li>
                                     }
                                 </ul>
                             </td>
@@ -57,3 +57,20 @@
         }
     </div>
 </main>
+
+<script>
+    // Get the list of recipes from the Razor model and log the ingredients to the console
+    @if (Model != null && Model.Count > 0)
+    {
+        @foreach (var recipe in Model)
+        {
+            <text>
+                console.log('Recipe: @recipe.Name');
+                @if (recipe.Components.Count>0)
+                {
+                    Console.WriteLine("  Ingredient: @ingredient.Name");
+               }
+            </text>
+        }
+    }
+</script>
