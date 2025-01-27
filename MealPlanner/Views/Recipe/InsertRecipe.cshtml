@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+@model List<Ingredient>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodawanie składników z typem posiłku</title>
+    <style>
+        body {
+            color: white;
+            background-color: #282c34;
+        }
+        textarea, input, select {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .field-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dodaj składniki do przepisu</h1>
+
+    <form id="recipe-form" method="post" asp-controller="Recipe" asp-action="InsertRecipe" >
+        <!-- Nazwa przepisu -->
+        <div>
+            <label for="RecipeName">Nazwa przepisu:</label>
+            <input type="text" id="Name" name="Name" placeholder="Wpisz nazwę przepisu" required />
+        </div>
+
+        <!-- Typ posiłku -->
+        <div>
+            <label for="MealType">Typ posiłku:</label>
+            <select id="MealType" name="Category">
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Snack">Snack</option>
+            </select>
+        </div>
+
+        <!-- Składniki -->
+        <div id="fields-container"></div>
+        <button type="button" id="add-field-button">Dodaj składnik</button>
+
+        <!-- Opis -->
+        <div>
+            <label for="Description">Opis przyrządzenia:</label>
+            <textarea id="Description" name="Description" rows="5" placeholder="Opisz, jak przygotować to danie"></textarea>
+        </div>
+
+        <button type="submit">Zapisz przepis</button>
+    </form>
+
+    <script>
+        // Lista dostępnych składników (dostarczona przez kontroler)
+        const availableIngredients = @Html.Raw(Json.Serialize(Model.Select(i => new { i.Name, i.Macronutrients.Unit }).ToList()));
+
+        const fieldsContainer = document.getElementById('fields-container');
+        const addFieldButton = document.getElementById('add-field-button');
+
+        addFieldButton.addEventListener('click', () => {
+            const fieldContainer = document.createElement('div');
+            fieldContainer.className = 'field-container';
+
+            // Wybór składnika
+            const ingredientSelect = document.createElement('select');
+            ingredientSelect.name = 'Components[index].Ingredient.Id';
+
+            const placeholderOption = document.createElement('option');
+            placeholderOption.value = '';
+            placeholderOption.textContent = 'Wybierz składnik';
+            placeholderOption.disabled = true;
+            placeholderOption.selected = true;
+            ingredientSelect.appendChild(placeholderOption);
+
+            availableIngredients.forEach(ingredient => {
+                const option = document.createElement('option');
+                option.value = ingredient.name;
+                option.textContent = ingredient.name;
+                ingredientSelect.appendChild(option);
+            });
+
+            // Ilość składnika
+            const quantityInput = document.createElement('input');
+            quantityInput.type = 'number';
+            quantityInput.name = 'Components[index].Quantity';
+            quantityInput.placeholder = 'Ilość';
+            quantityInput.required = true;
+            quantityInput.min = 0;
+
+            fieldContainer.appendChild(ingredientSelect);
+            fieldContainer.appendChild(quantityInput);
+
+            fieldsContainer.appendChild(fieldContainer);
+        });
+    </script>
+</body>
+</html>
